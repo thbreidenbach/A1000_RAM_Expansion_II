@@ -1,0 +1,58 @@
+# a1000_frontram.ucf
+# Example pin constraints for XC9572XL-10VQG64 (VQ64 package).
+#
+# Adjust LOCs to your PCB routing. This file is primarily a starting point.
+#
+# Notes:
+# - Keep JTAG pins dedicated: TDI=P28, TMS=P29, TCK=P30, TDO=P53 (per DS057).
+# - Power / ground / globals (per DS057):
+#   VCCINT: P3, P37
+#   VCCIO : P26, P55
+#   GND   : P14, P21, P41, P54
+#   GCK1/2/3: P15/P16/P17 (usable as I/O but recommended for clocks)
+#   GTS1: P5, GTS2: P2, GSR: P64
+#
+# I/O Standard is implicit for XC9500XL; outputs are 3.3V/2.5V CMOS and inputs are 5V tolerant.
+
+# --- Inputs from Amiga 1000 front connector ---
+NET "ras_n"      LOC = "P15";  # /RAS on global clock pin (recommended)
+NET "rrw_n"      LOC = "P20";  # /RRW
+
+NET "casl0_n"    LOC = "P22";
+NET "casu0_n"    LOC = "P23";
+NET "casl1_n"    LOC = "P25";
+NET "casu1_n"    LOC = "P27";
+
+NET "dra<0>"     LOC = "P6";
+NET "dra<1>"     LOC = "P8";
+NET "dra<2>"     LOC = "P9";
+NET "dra<3>"     LOC = "P10";
+NET "dra<4>"     LOC = "P11";
+NET "dra<5>"     LOC = "P12";
+NET "dra<6>"     LOC = "P13";
+NET "dra<7>"     LOC = "P18";
+
+# --- Outputs to SRAMs ---
+NET "sram_a<0>"  LOC = "P31" | SLEW = SLOW;
+NET "sram_a<1>"  LOC = "P32" | SLEW = SLOW;
+NET "sram_a<2>"  LOC = "P33" | SLEW = SLOW;
+NET "sram_a<3>"  LOC = "P34" | SLEW = SLOW;
+NET "sram_a<4>"  LOC = "P35" | SLEW = SLOW;
+NET "sram_a<5>"  LOC = "P36" | SLEW = SLOW;
+NET "sram_a<6>"  LOC = "P38" | SLEW = SLOW;
+NET "sram_a<7>"  LOC = "P39" | SLEW = SLOW;
+NET "sram_a<8>"  LOC = "P40" | SLEW = SLOW;
+NET "sram_a<9>"  LOC = "P42" | SLEW = SLOW;
+NET "sram_a<10>" LOC = "P44" | SLEW = SLOW;
+NET "sram_a<11>" LOC = "P45" | SLEW = SLOW;
+NET "sram_a<12>" LOC = "P47" | SLEW = SLOW;
+NET "sram_a<13>" LOC = "P48" | SLEW = SLOW;
+NET "sram_a<14>" LOC = "P49" | SLEW = SLOW;
+NET "sram_a<15>" LOC = "P50" | SLEW = SLOW;
+NET "sram_a<16>" LOC = "P51" | SLEW = SLOW;
+
+NET "ce2"        LOC = "P56" | SLEW = SLOW;
+NET "ce1_l_n"    LOC = "P57" | SLEW = SLOW;
+NET "ce1_u_n"    LOC = "P58" | SLEW = SLOW;
+NET "oe_n"       LOC = "P59" | SLEW = SLOW;
+NET "we_n"       LOC = "P60" | SLEW = SLOW;

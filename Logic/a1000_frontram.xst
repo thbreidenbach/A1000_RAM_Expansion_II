@@ -1,0 +1,9 @@
+# a1000_frontram.xst
+run
+-ifn a1000_frontram.prj
+-ifmt mixed
+-ofn a1000_frontram
+-p xc9572xl-10-vq64
+-top a1000_frontram
+-opt_mode Speed
+-opt_level 1
