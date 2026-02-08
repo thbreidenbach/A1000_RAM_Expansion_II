@@ -6361,10 +6361,6 @@
 		(uuid "25d7f879-4890-4605-a568-4583d16c4eba")
 	)
 	(no_connect
-		(at 72.39 175.26)
-		(uuid "3cb97a70-c86f-41b0-a8a8-fca51a251b61")
-	)
-	(no_connect
 		(at 176.53 96.52)
 		(uuid "4354e4dc-0e03-4f56-a60b-b8eaec0238b2")
 	)
@@ -6383,6 +6379,14 @@
 	(no_connect
 		(at 176.53 50.8)
 		(uuid "687a8912-872e-4182-ba7e-4e9be4f021b6")
+	)
+	(no_connect
+		(at 44.45 171.45)
+		(uuid "6b95e97c-b07b-4581-8a37-8506d6613117")
+	)
+	(no_connect
+		(at 44.45 176.53)
+		(uuid "6f64bfd8-e361-41a2-a216-8e7666857a80")
 	)
 	(no_connect
 		(at 207.01 76.2)
@@ -6417,16 +6421,12 @@
 		(uuid "d7232724-3486-42a1-961b-ace4cb70cb78")
 	)
 	(no_connect
-		(at 72.39 172.72)
-		(uuid "e521312b-f1b6-4086-a3b0-a0d2a2ded2b7")
-	)
-	(no_connect
-		(at 72.39 170.18)
-		(uuid "ead6f99c-c741-4c99-b186-7d0e4c59fb67")
-	)
-	(no_connect
 		(at 176.53 99.06)
 		(uuid "f41227a2-60ad-4fb5-aeff-834d037b2ab9")
+	)
+	(no_connect
+		(at 44.45 173.99)
+		(uuid "f70aae76-148f-4dfd-9576-8f900ea6b52c")
 	)
 	(bus_entry
 		(at 228.6 86.36)
@@ -9747,26 +9747,6 @@
 			)
 		)
 	)
-	(global_label "+5V"
-		(shape output)
-		(at 72.39 165.1 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "12dc5293-885b-484b-80cd-01a1c1b67070")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 72.39 165.1 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-	)
 	(global_label "{slash}CASU1"
 		(shape output)
 		(at 44.45 44.45 0)
@@ -9917,6 +9897,26 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "GND"
+		(shape output)
+		(at 34.29 181.61 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "1b7903b4-ef36-4df0-8744-16f4fc1f38f9")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 34.29 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 				(hide yes)
 			)
 		)
@@ -10181,26 +10181,6 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "GND"
-		(shape output)
-		(at 62.23 180.34 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "3813b6a9-3385-473c-baab-6f681d540d4c")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 62.23 180.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
 				(hide yes)
 			)
 		)
@@ -10969,6 +10949,26 @@
 			)
 		)
 	)
+	(global_label "GND"
+		(shape output)
+		(at 36.83 181.61 270)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "798d21c6-9927-4a1e-8954-b0a94d426912")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 36.83 181.61 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+	)
 	(global_label "sram_a14"
 		(shape input)
 		(at 123.19 54.61 0)
@@ -11031,26 +11031,6 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
-				(hide yes)
-			)
-		)
-	)
-	(global_label "GND"
-		(shape output)
-		(at 64.77 180.34 270)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "7e6d10ce-4b39-466d-92a0-df8207189e29")
-		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 64.77 180.34 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
 				(hide yes)
 			)
 		)
@@ -11799,6 +11779,26 @@
 					(size 1.27 1.27)
 				)
 				(justify left)
+				(hide yes)
+			)
+		)
+	)
+	(global_label "+5V"
+		(shape output)
+		(at 44.45 166.37 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "c5d16ed9-7ab6-4207-9861-96be7eb29d02")
+		(property "Intersheetrefs" "${INTERSHEET_REFS}"
+			(at 44.45 166.37 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
 				(hide yes)
 			)
 		)
@@ -14341,86 +14341,6 @@
 		)
 	)
 	(symbol
-		(lib_id "Connector:USB_B_Mini")
-		(at 64.77 170.18 0)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(fields_autoplaced yes)
-		(uuid "980f9971-d005-4788-ae27-fa0b1b9dbed4")
-		(property "Reference" "MiniUSB"
-			(at 64.77 157.48 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "USB_Mini-B_Wuerth"
-			(at 64.77 160.02 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" "Connector_USB:USB_Mini-B_Wuerth_65100516121_Horizontal"
-			(at 68.58 171.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" "~"
-			(at 68.58 171.45 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" "USB Mini Type B connector"
-			(at 64.77 170.18 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin "5"
-			(uuid "d8a37622-b08f-4ff4-8491-7b5f4bdacee0")
-		)
-		(pin "2"
-			(uuid "8ab5a48c-5935-42e3-85df-bac143d606a3")
-		)
-		(pin "1"
-			(uuid "a6f6d46b-5510-49a8-b374-16573e1741bd")
-		)
-		(pin "4"
-			(uuid "9710a8a6-2e02-4611-839c-40ff63c0d905")
-		)
-		(pin "6"
-			(uuid "ec739ae9-61f6-477c-b8d3-26e0a38f680f")
-		)
-		(pin "3"
-			(uuid "c6b36dc6-70a7-42e1-b588-d150e7f9ccaa")
-		)
-		(instances
-			(project ""
-				(path "/ac211864-9228-4db4-a24a-88f17cc80a70"
-					(reference "MiniUSB")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:R_Small")
 		(at 231.14 111.76 90)
 		(unit 1)
@@ -14483,6 +14403,86 @@
 			(project "A1000_RAM-Expansion"
 				(path "/ac211864-9228-4db4-a24a-88f17cc80a70"
 					(reference "R18")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Connector:USB_B_Mini")
+		(at 36.83 171.45 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "b256a1bb-e2d5-4052-8fe7-90bcb3d3f2c3")
+		(property "Reference" "MiniUSB1"
+			(at 36.83 158.75 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Value" "USB_Mini-B_Wuerth"
+			(at 36.83 161.29 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Footprint" "Connector_USB:USB_Mini-B_Wuerth_65100516121_Horizontal"
+			(at 40.64 172.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" ""
+			(at 40.64 172.72 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" ""
+			(at 36.83 171.45 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "6"
+			(uuid "9ef10fdf-597a-4615-9a2f-ec86e8602d9e")
+		)
+		(pin "4"
+			(uuid "f5c085dd-d1c8-4e46-adf5-5a1e16097399")
+		)
+		(pin "3"
+			(uuid "b9a4ba14-dbd5-4af3-8281-21653b0b5a32")
+		)
+		(pin "1"
+			(uuid "f18317a6-9d61-4b3c-b110-a05cdf8348c8")
+		)
+		(pin "2"
+			(uuid "bbd1c4a5-b6fd-474a-8eed-eb5de613e9a3")
+		)
+		(pin "5"
+			(uuid "8de67a86-1896-49c8-b6aa-132d9f61ade0")
+		)
+		(instances
+			(project ""
+				(path "/ac211864-9228-4db4-a24a-88f17cc80a70"
+					(reference "MiniUSB1")
 					(unit 1)
 				)
 			)
