@@ -1,7 +1,7 @@
 # a1000_frontram.ucf
 # Example pin constraints for XC9572XL-10VQG64 (VQ64 package).
 #
-# Adjust LOCs to your PCB routing. This file is primarily a starting point.
+# Adjust LOCs to PCB routing. This file is primarily a starting point.
 #
 # Notes:
 # - Keep JTAG pins dedicated: TDI=P28, TMS=P29, TCK=P30, TDO=P53 (per DS057).

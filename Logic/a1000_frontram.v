@@ -1,7 +1,7 @@
 // a1000_frontram.v
 // 256 KiB A1000 Front-RAM (ChipRAM) Expansion Glue Logic for XC9572XL (VQ64)
 // Target memory: 2x 128Kx8 asynchronous SRAM with CE1# (active low), CE2 (active high),
-// OE# (active low), WE# (active low) (e.g. CY62128ELL/CY7C109D/CY7C1009D family)
+// OE# (active low), WE# (active low) (e.g. CY62128ELL/CY7C109D/CY7C1009D etc family)
 //
 // Core idea:
 // - DRA[7:0] is a multiplexed address bus (DRAM-style).

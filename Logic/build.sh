@@ -18,7 +18,7 @@ echo "[2/4] NGDBuild"
 ngdbuild -p ${PART} -uc ${PROJECT}.ucf ${PROJECT}.ngc ${PROJECT}.ngd
 
 echo "[3/4] Fit (cpldfit)"
-cpldfit -p ${PART} -ofmt JED -optimize speed -loc on -tmd off ${PROJECT}.ngd
+cpldfit -p ${PART} -optimize speed -loc on -tmd off ${PROJECT}.ngd
 
 echo "[4/4] Generate SVF (hprep6)"
 hprep6 -s IEEE1149 -n ${PROJECT} -i ${PROJECT}
