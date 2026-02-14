@@ -19,7 +19,7 @@ NET "ras_n"      LOC = "P15";  # /RAS on global clock pin (recommended)
 NET "rrw_n"      LOC = "P20";  # /RRW
 
 NET "casl0_n"    LOC = "P22";
-NET "casu0_n"    LOC = "P23";
+NET "casu0_n"    LOC = "P24";
 NET "casl1_n"    LOC = "P25";
 NET "casu1_n"    LOC = "P27";
 

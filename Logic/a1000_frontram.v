@@ -1,73 +1,102 @@
 // a1000_frontram.v
-// 256 KiB A1000 Front-RAM (ChipRAM) Expansion Glue Logic for XC9572XL (VQ64)
-// Target memory: 2x 128Kx8 asynchronous SRAM with CE1# (active low), CE2 (active high),
-// OE# (active low), WE# (active low) (e.g. CY62128ELL/CY7C109D/CY7C1009D etc family)
-//
-// Core idea:
-// - DRA[7:0] is a multiplexed address bus (DRAM-style).
-// - Latch ROW[7:0] at the falling edge of /RAS.
-// - Latch COL[7:0] and BANK (A16) at the falling edge of "any CAS".
-// - Present SRAM address as: A[7:0]=COL, A[15:8]=ROW, A16=BANK.
-// - Byte lane selection is performed via separate CE1# for low- and high-byte SRAM.
-// - OE#/WE# are gated by CAS to minimize bus-driving window and prevent spurious writes.
-//
-// Notes:
-// - /RRW is assumed to behave like DRAM /WE: low = write, high = read.
-// - BANK is derived from CAS1 group: BANK=1 if either /CASL1 or /CASU1 is asserted.
-//
-module a1000_frontram (
-    input  wire        ras_n,      // /RAS from Agnus (active low)
-    input  wire        rrw_n,      // /RRW (active low write enable)
-    input  wire        casl0_n,     // /CASL0 (bank0, low byte)
-    input  wire        casu0_n,     // /CASU0 (bank0, high byte)
-    input  wire        casl1_n,     // /CASL1 (bank1, low byte)
-    input  wire        casu1_n,     // /CASU1 (bank1, high byte)
-    input  wire [7:0]  dra,        // multiplexed address lines DRA[7:0]
+// Robust async SRAM glue for A1000 Front-RAM with XC9572XL (VQ64)
+// - CE2 follows /RAS (early enable)
+// - Latch COL/BANK/READ/LANES once per RAS on qualified CAS falling edge
+// - Create delayed CAS enable window (cas_win) to avoid WE/OE asserting on old address
+// - en deasserts immediately when CAS ends (cas_any_n rises) or RAS ends (ras_n rises)
 
-    output wire [16:0] sram_a,     // to both SRAMs A0..A16
-    output wire        ce2,        // to both SRAMs CE2 (active high)
-    output wire        ce1_l_n,    // to low-byte SRAM CE1# (active low)
-    output wire        ce1_u_n,    // to high-byte SRAM CE1# (active low)
-    output wire        oe_n,       // to both SRAMs OE# (active low)
-    output wire        we_n        // to both SRAMs WE# (active low)
+module a1000_frontram (
+    input  wire        ras_n,
+    input  wire        rrw_n,
+    input  wire        casl0_n,
+    input  wire        casu0_n,
+    input  wire        casl1_n,
+    input  wire        casu1_n,
+    input  wire [7:0]  dra,
+
+    output wire [16:0] sram_a,
+    output wire        ce2,
+    output wire        ce1_l_n,
+    output wire        ce1_u_n,
+    output wire        oe_n,
+    output wire        we_n
 );
 
-    // Any CAS active? (low when any CAS is asserted low)
-    wire cas_any_n = casl0_n & casu0_n & casl1_n & casu1_n;
+    // Bank CAS groups (active low)
+    wire cas0_n    = casl0_n & casu0_n;   // low => bank0 active
+    wire cas1_n    = casl1_n & casu1_n;   // low => bank1 active
+    wire cas_any_n = cas0_n   & cas1_n;   // low => any CAS active
 
-    // Latch row on /RAS falling edge.
+    // Qualified CAS: only valid while /RAS low (ignore RAS-only refresh/noise)
+    wire cas_qual_n = cas_any_n | ras_n;  // low only when (CAS active) AND (RAS active)
+
+    // ---------------- ROW latch ----------------
     reg [7:0] row_lat;
-    always @(negedge ras_n) begin
+    always @(negedge ras_n)
         row_lat <= dra;
-    end
 
-    // Latch column (and bank) on CAS falling edge of the cycle.
+    // ---------------- First CAS per RAS: latch COL/BANK/READ/LANES ----------------
     reg [7:0] col_lat;
-    reg       bank_lat;
-    wire      bank_next = ~(casl1_n & casu1_n); // 1 if any CAS1 asserted (byte or word)
+    reg       bank_lat;       // 0=bank0, 1=bank1
+    reg       read_lat;       // 1=read, 0=write
+    reg       ce1_l_lat_n;    // latched lane selects (active low)
+    reg       ce1_u_lat_n;
+    reg       cas_seen;
 
-    always @(negedge cas_any_n) begin
-        col_lat  <= dra;
-        bank_lat <= bank_next;
+    // reset on end of RAS; latch on first qualified CAS falling
+    always @(posedge ras_n or negedge cas_qual_n) begin
+        if (ras_n) begin
+            cas_seen     <= 1'b0;
+            read_lat     <= 1'b1;  // safe default: read
+            ce1_l_lat_n  <= 1'b1;
+            ce1_u_lat_n  <= 1'b1;
+        end else if (!cas_seen) begin
+            col_lat <= dra;
+
+            // A314-style bank bit: bank1 => 1, bank0 => 0
+            // Using cas0_n works well when only one bank group is active.
+            bank_lat <= cas0_n;
+
+            // Latch read/write once (filters RRW spikes)
+            read_lat <= rrw_n;
+
+            // Latch lane selects once (filters CAS ringing)
+            ce1_l_lat_n <= (casl0_n & casl1_n);
+            ce1_u_lat_n <= (casu0_n & casu1_n);
+
+            cas_seen <= 1'b1;
+        end
     end
 
-    // SRAM address mapping: A[7:0]=COL, A[15:8]=ROW, A16=BANK
-    assign sram_a = { bank_lat, row_lat, col_lat };
+    // Address mapping (A314-style): A[15:8]=COL, A[7:0]=ROW, A16=BANK
+    assign sram_a = { bank_lat, col_lat, row_lat };
 
-    // Chip enables:
-    // CE2 (active high): asserted during /RAS low.
-    // CE1# per lane: asserted low when the corresponding CAS (bank0 or bank1) is low.
-    assign ce2     = ~ras_n;
-    assign ce1_l_n = casl0_n & casl1_n;
-    assign ce1_u_n = casu0_n & casu1_n;
+    // CE2 early (classic): asserted for the whole /RAS-low window
+    assign ce2 = ~ras_n;
 
-    // Control signals:
-    // - WE# low only for write cycles, and only while CAS is active (low).
-    // - OE# low only for read cycles, and only while CAS is active (low).
-    //
-    // If you prefer "DRAM-like OE always enabled", you may tie OE# to GND externally
-    // and remove oe_n from the design.
-    assign we_n = rrw_n | cas_any_n;        // write: rrw_n=0 AND cas_any_n=0 => WE#=0
-    assign oe_n = (~rrw_n) | cas_any_n;     // read : rrw_n=1 AND cas_any_n=0 => OE#=0
+    // ---------------- CAS window FF (XST-friendly) ----------------
+    // Set on qualified CAS falling edge, clear on /RAS rising edge.
+    reg cas_win;
+    always @(posedge ras_n or negedge cas_qual_n) begin
+        if (ras_n)
+            cas_win <= 1'b0;
+        else
+            cas_win <= 1'b1;
+    end
+
+    // Enable window:
+    // - asserts after cas_win propagates (FF tCO delay)
+    // - deasserts immediately when CAS ends or RAS ends
+    wire en = cas_win & ~ras_n & ~cas_any_n;
+
+    // Lane CE1# (active low), gated by en
+    assign ce1_l_n = ce1_l_lat_n | (~en);
+    assign ce1_u_n = ce1_u_lat_n | (~en);
+
+    // OE/WE gated by en and *latched* read/write (prevents rrw glitches)
+    // read_lat=1 => OE active during en
+    // read_lat=0 => WE active during en
+    assign oe_n = (~read_lat) | (~en);
+    assign we_n = ( read_lat) | (~en);
 
 endmodule
